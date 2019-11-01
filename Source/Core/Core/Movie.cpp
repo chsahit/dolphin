@@ -17,6 +17,8 @@
 #include <utility>
 #include <variant>
 #include <vector>
+#include <iostream>
+#include <time.h>
 
 #include "Common/Assert.h"
 #include "Common/ChunkFile.h"
@@ -105,6 +107,9 @@ static WiiManipFunction s_wii_manip_func;
 
 static std::string s_current_file_name;
 
+std::string logfilename = "logs/keyboard_presses_" + std::to_string(time(NULL)) + ".txt";
+static std::ofstream outf(logfilename);
+
 // NOTE: Host / CPU Thread
 static void EnsureTmpInputSize(size_t bound)
 {
@@ -185,6 +190,9 @@ std::string GetInputDisplay()
         input_display += s_InputDisplay[i] + '\n';
     }
   }
+  //sahit: write button presses to a file
+  outf << "time: " << time(NULL) << "\n";
+  outf << input_display;
   return input_display;
 }
 

@@ -20,6 +20,7 @@
 #include <mutex>
 #include <string>
 #include <tuple>
+#include <iostream>
 
 #include "Common/Assert.h"
 #include "Common/CommonTypes.h"
@@ -348,6 +349,7 @@ void Renderer::DrawDebugText()
   if (SConfig::GetInstance().m_ShowInputDisplay)
   {
     final_cyan += Movie::GetInputDisplay();
+    //printf("show input display");
     final_yellow += "\n";
   }
 
