@@ -18,7 +18,7 @@
 #include <variant>
 #include <vector>
 #include <iostream>
-#include <time.h>
+#include <chrono>
 
 #include "Common/Assert.h"
 #include "Common/ChunkFile.h"
@@ -107,7 +107,8 @@ static WiiManipFunction s_wii_manip_func;
 
 static std::string s_current_file_name;
 
-std::string logfilename = "logs/keyboard_presses_" + std::to_string(time(NULL)) + ".txt";
+auto start_time = std::chrono::system_clock::now().time_since_epoch().count();
+std::string logfilename = "logs/keyboard_presses_" + std::to_string(start_time) + ".txt";
 static std::ofstream outf(logfilename);
 
 // NOTE: Host / CPU Thread
@@ -191,7 +192,9 @@ std::string GetInputDisplay()
     }
   }
   //sahit: write button presses to a file
-  outf << "time: " << time(NULL) << "\n";
+  auto cur_time = std::chrono::high_resolution_clock::now().time_since_epoch();
+  auto cur_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(cur_time);
+  outf << "time: " << std::to_string(cur_time_ms.count() / 1000.0) << "\n";
   outf << input_display;
   return input_display;
 }
